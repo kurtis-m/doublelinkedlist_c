@@ -10,12 +10,12 @@
  */
 List* initList() {
     List* list = malloc(sizeof(List));
-    if (list == NULL) {
+    if (list == nullptr) {
         fprintf(stderr, "Allocation error for List");
-        return NULL;
+        return nullptr;
     }
-    list->head = NULL;
-    list->tail = NULL;
+    list->head = nullptr;
+    list->tail = nullptr;
     list->length = 0;
     return list;
 }
@@ -27,14 +27,14 @@ List* initList() {
 void clearList(List* list) {
     Node* current = list->head;
 
-    while (current != NULL) {
+    while (current != nullptr) {
         Node* next = current->next;
         free(current);
         current = next;
     }
 
-    list->head = NULL;
-    list->tail = NULL;
+    list->head = nullptr;
+    list->tail = nullptr;
     list->length = 0;
 }
 
@@ -63,18 +63,18 @@ bool listIsEmpty(const List* list) {
  */
 void addToList(List* list, const int data) {
     Node* node = malloc(sizeof(Node));
-    if (node == NULL) {
+    if (node == nullptr) {
         fprintf(stderr, "Allocation error for Node");
         return;
     }
 
     node->data = data;
-    node->next = NULL;
+    node->next = nullptr;
 
     if (listIsEmpty(list)) {
         list->head = node;
         list->tail = node;
-        node->prev = NULL;
+        node->prev = nullptr;
     }
     else {
         node->prev = list->tail;
@@ -100,10 +100,10 @@ bool popFromList(List* list, int* output) {
     --list->length;
 
     if (listIsEmpty(list)) {
-        list->tail = NULL;
+        list->tail = nullptr;
     }
     else {
-        list->head->prev = NULL;
+        list->head->prev = nullptr;
     }
     *output = oldhead->data;
     free(oldhead);
@@ -116,8 +116,8 @@ bool popFromList(List* list, int* output) {
  */
 void printList(const List* list) {
     printf("(");
-    for (const Node* current = list->head; current != NULL; current = current->next) {
-        printf(current->next == NULL ? "%d" : "%d, ", current->data);
+    for (const Node* current = list->head; current != nullptr; current = current->next) {
+        printf(current->next == nullptr ? "%d" : "%d, ", current->data);
     }
     printf(") length: %llu\n",list->length);
 }
@@ -128,8 +128,8 @@ void printList(const List* list) {
  */
 void printListReverse(const List* list) {
     printf("(");
-    for (const Node* current = list->tail; current != NULL; current = current->prev) {
-        printf(current->prev == NULL ? "%d" : "%d, ", current->data);
+    for (const Node* current = list->tail; current != nullptr; current = current->prev) {
+        printf(current->prev == nullptr ? "%d" : "%d, ", current->data);
     }
     printf(") length: %llu (reversed)\n",list->length);
 }
@@ -143,9 +143,18 @@ int* listToArray(const List* list) {
     int* arr = malloc(list->length * sizeof(int));
     int currentIndex = 0;
 
-    for (const Node* current = list->head; current != NULL; current = current->next) {
+    for (const Node* current = list->head; current != nullptr; current = current->next) {
         arr[currentIndex] = current->data;
         ++currentIndex;
     }
     return arr;
+}
+
+List* arrayToList(const int* arr, const size_t size) {
+    List* list = initList();
+
+    for (size_t i = 0; i < size; ++i) {
+        addToList(list,arr[i]);
+    }
+    return list;
 }

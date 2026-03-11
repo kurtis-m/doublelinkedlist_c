@@ -30,5 +30,6 @@ void freeList(List* list);
 void printList(const List* list);
 void printListReverse(const List* list);
 int* listToArray(const List* list);
+List* arrayToList(const int* arr, size_t size);
 
 #endif //DOUBLELINKEDLIST_C_LIST_H
